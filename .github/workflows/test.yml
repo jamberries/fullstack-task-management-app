@@ -1,12 +1,28 @@
-name: TDD Tests with GitHub Actions
+name: TDD Test with GitHub Action
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
 jobs:
-  test:
+  test-client:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./client
+    steps:
+      - uses: actions/checkout@v2
+      - name: Test using Yarn after installing packages
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14'
+      - run: yarn install
+      - run: yarn test
+  test-server:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./server
     steps:
       - uses: actions/checkout@v2
       - name: Test using Yarn after installing packages
